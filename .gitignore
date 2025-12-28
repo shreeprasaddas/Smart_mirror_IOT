@@ -85,10 +85,6 @@ Thumbs.db
 # Docker
 .dockerignore
 
-# MagicMirror specific
-MagicMirror/config/config.js
-MagicMirror/.git/
-
 # Voice assistant
 voice_assistant/__pycache__/
 
