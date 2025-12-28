@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  magicmirror:
+    build: .
+    container_name: magicmirror-voice-assistant
+    restart: unless-stopped
+    
+    # Device access for camera and audio
+    devices:
+      - /dev/video0:/dev/video0  # Camera
+      - /dev/snd:/dev/snd        # Audio
+    
+    # Privileged mode for hardware access
+    privileged: true
+    
+    # Network mode
+    network_mode: host
+    
+    # Volumes for persistent data
+    volumes:
+      - ./face_recognition/dataset:/app/face_recognition/dataset
+      - ./face_recognition/encodings.pickle:/app/face_recognition/encodings.pickle
+      - ./MagicMirror/modules/MMM-VoiceAssistant/user_data.json:/app/MagicMirror/modules/MMM-VoiceAssistant/user_data.json
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    
+    # Environment variables
+    environment:
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    
+    # Ports
+    ports:
+      - "8080:8080"  # MagicMirror
+      - "5000:5000"  # Face Recognition API

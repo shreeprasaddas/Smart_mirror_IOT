@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Greeting Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: white;
+        }
+        #greeting {
+            font-size: 32px;
+            color: black;
+            padding: 20px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Face Recognition Greeting Test</h1>
+    <div id="greeting">Waiting for greeting...</div>
+    <div id="debug"></div>
+
+    <script>
+        function updateGreeting() {
+            fetch('http://localhost:5000/current_greeting')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('debug').innerHTML = 
+                        'Raw data: ' + JSON.stringify(data);
+                    
+                    if (data.name && data.greeting) {
+                        document.getElementById('greeting').innerHTML = data.greeting;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('debug').innerHTML = 'Error: ' + err;
+                });
+        }
+
+        setInterval(updateGreeting, 1000);
+        updateGreeting();
+    </script>
+</body>
+</html>

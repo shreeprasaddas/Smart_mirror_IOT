@@ -1,0 +1,7 @@
+face_recognition
+opencv-python
+pyttsx3
+numpy<2
+requests
+flask
+flask-cors
